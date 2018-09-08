@@ -1,9 +1,9 @@
 /**
  * http://strbr.fjbo.net/
  * JavaScript Animation Frame Manager
- * @version v0.0.1
+ * @version v0.1.1
  * @author Francisco Javier Becerra-Ortiz (FJBO)
- * @copyright © 2017 FJBO.
+ * @copyright © 2017-2018 FJBO.
 **/
 
 /**
@@ -96,14 +96,24 @@ function strbr() {
 	}
 
 	/**
-	 * Toggles strbr pause state.
+	 * Enables strbr pause state.
 	 */
 	strbr.prototype.pause = function () {
-		if(this.paused == true) {
-			this.paused = false;
-		} else {
-			this.paused = true;
-		}
+		if(!this.paused) this.paused = true;
+	}
+
+	/*
+	 * Disables strbr pause state.
+	 */
+	 strbr.prototype.play = function() {
+		 if(this.paused) this.paused = false;
+	 }
+
+	/*
+	 * Toggles strbr pause state
+	 */
+	strbr.prototype.toggle = function() {
+		this.paused = !this.paused;
 	}
 
 	/**
@@ -154,6 +164,9 @@ function strbr() {
 		return;
 	}
 	this.frame = requestAnimationFrame(this.run.bind(this));
+
+	window.addEventListener('blur', this.pause.bind(this));
+	window.addEventListener('focus', this.play.bind(this));
 }
 
 /*
