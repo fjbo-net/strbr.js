@@ -1,0 +1,39 @@
+{
+  "name": "@fjbo-net/strobr",
+  "version": "1.0.0",
+  "description": "A JavaScript animation frame controller for the web.",
+  "main": "strbr.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fjbo-net/strobr.js.git"
+  },
+  "keywords": [
+    "animation",
+    "requestanimationframe",
+    "scroller",
+    "parallax",
+    "canvas"
+  ],
+  "author": {
+    "name": "Francisco Javier Becerra-Ortiz",
+    "url": "https://fjbo.net/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/fjbo-net/strobr.js/issues"
+  },
+  "homepage": "https://github.com/fjbo-net/strobr.js#readme",
+  "year": 2017,
+  "dependencies": {},
+  "devDependencies": {
+    "del": "^5.1.0",
+    "fs": "0.0.1-security",
+    "gulp": "^4.0.2",
+    "gulp-header": "^2.0.9",
+    "gulp-jsbeautifier": "^3.0.1",
+    "gulp-strip-comments": "^2.5.2"
+  }
+}
