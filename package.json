@@ -1,5 +1,5 @@
 {
-  "name": "@fjbo-net/strobr",
+  "name": "@fjbo-net/strbr",
   "version": "1.0.0",
   "description": "A JavaScript animation frame controller for the web.",
   "main": "strbr.js",
@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/fjbo-net/strobr.js.git"
+    "url": "git+https://github.com/fjbo-net/strbr.js.git"
   },
   "keywords": [
     "animation",
@@ -23,9 +23,9 @@
   },
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/fjbo-net/strobr.js/issues"
+    "url": "https://github.com/fjbo-net/strbr.js/issues"
   },
-  "homepage": "https://github.com/fjbo-net/strobr.js#readme",
+  "homepage": "https://github.com/fjbo-net/strbr.js#readme",
   "year": 2017,
   "dependencies": {},
   "devDependencies": {
