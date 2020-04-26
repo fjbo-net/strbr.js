@@ -1,6 +1,7 @@
 'use-strict';
 
 const
+babel = require('gulp-babel'),
 beautify = require('gulp-jsbeautifier'),
 beautifyJsConfig = {
 	indent_char: '\t',
@@ -79,6 +80,7 @@ gulp.task('js:prep', () => gulp
 		fs.readFileSync('./assets/ejs/license.ejs', 'utf-8'),
 		{ pkg: require('./package.json') }
 	))
+	.pipe(babel())
 	.pipe(beautify(beautifyJsConfig))
 	.pipe(gulp.dest('./dist/'))
 );
