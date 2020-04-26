@@ -13,6 +13,9 @@
 	 * @constructor
 	 */
 	let StrbrJs = function() {
+		if(!StrbrJs.prototype.instance) StrbrJs.prototype.instance = this;
+		else return StrbrJs.prototype.instance;
+
 		this.resize = {
 			active: true,
 			prevX: 0,
