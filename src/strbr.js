@@ -1,9 +1,9 @@
 /**
  * http://strbr.fjbo.net/
  * JavaScript Animation Frame Manager
- * @version v0.1.1
+ * @version v1.2.0
  * @author Francisco Javier Becerra-Ortiz (FJBO)
- * @copyright © 2017-2018 FJBO.
+ * @copyright © 2017-Present FJBO.
 **/
 
 /**
