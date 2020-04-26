@@ -12,7 +12,9 @@ del = require('del'),
 fs = require('fs'),
 gulp = require('gulp'),
 header = require('gulp-header'),
-strip = require('gulp-strip-comments');
+rename = require('gulp-rename'),
+strip = require('gulp-strip-comments'),
+uglify = require('gulp-uglify');
 
 
 gulp.task('clean', callback => {
@@ -95,6 +97,15 @@ gulp.task('js:bundle', () => gulp
 	.pipe(gulp.dest('./dist/'))
 );
 
+gulp.task('js:minify', () => gulp
+	.src('./dist/**/*.js')
+	.pipe(uglify())
+	.pipe(rename({
+		extname: '.min.js'
+	}))
+	.pipe(gulp.dest('./dist/'))
+);
+
 
 gulp.task('default', gulp
 	.series(
@@ -102,6 +113,7 @@ gulp.task('default', gulp
 		'copy:src',
 		'js:prep',
 		'js:bundle',
+		'js:minify',
 		'js:package-json',
 		'copy:files'
 	)
