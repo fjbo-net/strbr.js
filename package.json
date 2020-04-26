@@ -27,7 +27,9 @@
   },
   "homepage": "https://github.com/fjbo-net/strbr.js#readme",
   "year": 2017,
-  "dependencies": {},
+  "dependencies": {
+    "@fjbo-net/event-js": "^1.0.0"
+  },
   "devDependencies": {
     "@babel/core": "^7.9.0",
     "@babel/preset-env": "^7.9.5",
