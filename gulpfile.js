@@ -7,6 +7,7 @@ beautifyJsConfig = {
 	indent_char: '\t',
 	indent_size: 1
 },
+concat = require('gulp-concat'),
 del = require('del'),
 fs = require('fs'),
 gulp = require('gulp'),
@@ -85,12 +86,22 @@ gulp.task('js:prep', () => gulp
 	.pipe(gulp.dest('./dist/'))
 );
 
+gulp.task('js:bundle', () => gulp
+	.src([
+		'./node_modules/@fjbo-net/event-js/event.js',
+		'./dist/**/*.js',
+	])
+	.pipe(concat('strbr.bundle.js'))
+	.pipe(gulp.dest('./dist/'))
+);
+
 
 gulp.task('default', gulp
 	.series(
 		'clean',
 		'copy:src',
 		'js:prep',
+		'js:bundle',
 		'js:package-json',
 		'copy:files'
 	)
