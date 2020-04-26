@@ -7,6 +7,8 @@
 **/
 
 (function(){
+	if(!window.FJBO) window.FJBO = {};
+
 	/**
 	 * Animation Controller. Contains the API methods for strbr.
 	 *
@@ -183,5 +185,5 @@
 	/*
 	 * Auto-initialize strbr. Creates an instance at the window object.
 	 */
-	window.strbr = new StrbrJs();
+	window.FJBO.StrbrJs = window.strbr = new StrbrJs();
 })();
