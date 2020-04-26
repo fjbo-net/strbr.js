@@ -16,27 +16,31 @@
 		if(!StrbrJs.prototype.instance) StrbrJs.prototype.instance = this;
 		else return StrbrJs.prototype.instance;
 
+		let _this = this;
+
 		this.resize = {
 			active: true,
-			prevX: 0,
-			prevY: 0,
+			prevWidth: 0,
+			prevHeight: 0,
 			registered: [],
 			container: {}
-		}
+		};
+
 		this.scroll = {
 			active: true,
 			prevX: 0,
 			prevY: 0,
 			registered: [],
 			container: {}
-		}
+		};
+
 		this.default = {
 			active: true,
 			prevX: 0,
 			prevY: 0,
 			registered: [],
 			container: {}
-		}
+		};
 
 		this.paused = false;
 
@@ -61,23 +65,22 @@
 		 *  innerHeight or innerWidth values differ from previous values.
 		 */
 		StrbrJs.prototype.add = function(i, f, e) {
-			if(typeof(e) == 'undefined') {
-				var e = 'default';
-			}
-			switch(e.toLowerCase()) {
+			let eventName = typeof e === 'string' ? e : 'default';
+
+			switch(eventName.toLowerCase()) {
 				case 'resize':
-				if(!this.resize.container.hasOwnProperty(i)) this.resize.container[i] = f;
-				break;
+					if(!_this.resize.container.hasOwnProperty(i)) _this.resize.container[i] = f;
+					break;
 				case 'scroll':
-				if(!this.scroll.container.hasOwnProperty(i)) this.scroll.container[i] = f;
-				break;
+					if(!_this.scroll.container.hasOwnProperty(i)) _this.scroll.container[i] = f;
+					break;
 				default:
-				if(!this.default.container.hasOwnProperty(i)) this.default.container[i] = f;
-				break;
+					if(!_this.default.container.hasOwnProperty(i)) _this.default.container[i] = f;
+					break;
 			}
 			f();
 			return i;
-		}
+		};
 
 		/**
 		 * Removes a function from the execution queue (loop).
@@ -88,89 +91,93 @@
 			}
 			switch(e.toLowerCase()) {
 				case 'resize':
-				if(this.resize.container.hasOwnProperty(i)) delete this.resize.container[i];
+				if(_this.resize.container.hasOwnProperty(i)) delete _this.resize.container[i];
 				break;
 				case 'scroll':
-				if(this.scroll.container.hasOwnProperty(i)) delete this.scroll.container[i];
+				if(_this.scroll.container.hasOwnProperty(i)) delete _this.scroll.container[i];
 				break;
 				default:
-				if(this.default.container.hasOwnProperty(i)) delete this.default.container[i];
+				if(_this.default.container.hasOwnProperty(i)) delete _this.default.container[i];
 				break;
 			}
-		}
+		};
 
 		/**
 		 * Enables strbr pause state.
 		 */
-		StrbrJs.prototype.pause = function () {
-			if(!this.paused) this.paused = true;
-		}
+		StrbrJs.prototype.pause = () => {
+			if(!_this.paused) _this.paused = true;
+		};
 
 		/*
 		 * Disables strbr pause state.
 		 */
-		 StrbrJs.prototype.play = function() {
-			 if(this.paused) this.paused = false;
-		 }
+		 StrbrJs.prototype.play = () => {
+			 if(_this.paused) _this.paused = false;
+		 };
 
 		/*
 		 * Toggles strbr pause state
 		 */
-		StrbrJs.prototype.toggle = function() {
-			this.paused = !this.paused;
-		}
+		StrbrJs.prototype.toggle = () => _this.paused = !_this.paused;
 
 		/**
 		 * This method is the execution queue that contains all the event queues.
 		 */
-		StrbrJs.prototype.run = function() {
-			if(this.paused != true) {
-				if(this.default.active == true) {
-					for(var key in this.default.container) {
-						if(this.default.container.hasOwnProperty(key)) {
-							this.default.container[key]();
-						}
+		StrbrJs.prototype.run = () => {
+			let executeQueue = queueName => {
+				if(!_this[queueName]) return;
+
+				for(let key in _this[queueName].container) {
+					if(_this[queueName].container.hasOwnProperty(key))
+						_this[queueName].container[key]();
+				}
+			};
+
+			if(_this.paused != true) {
+				if(_this.default.active == true)
+					executeQueue('default');
+
+				if(_this.scroll.active == true) {
+					let
+					scrollX = window.scrollX || window.pageXOffset,
+					scrollY = window.scrollY || window.pageYOffset;
+
+					if(scrollX != _this.scroll.prevX || scrollY != _this.scroll.prevY) {
+						_this.scroll.prevX = scrollX;
+						_this.scroll.prevY = scrollY;
+
+						executeQueue('scroll');
 					}
 				}
-				if(this.scroll.active == true) {
-					if(window.scrollY != this.scroll.prevY || window.scrollX != this.scroll.prevX) {
-						this.scroll.prevX = window.scrollX;
-						this.scroll.prevY = window.scrllY;
 
-						for(var key in this.scroll.container) {
-							if(this.scroll.container.hasOwnProperty(key)) {
-								this.scroll.container[key]();
-							}
-						}
-					}
-				}
-				if(this.resize.active == true) {
-					if(window.scrollY != this.resize.prevY || window.scrollX != this.resize.prevX) {
-						this.resize.prevX = window.innerWidth;
-						this.resize.prevY = window.innerHeight;
+				if(_this.resize.active == true) {
+					let
+					width = window.innerWidth,
+					height = window.innerHeight;
 
-						for(var key in this.resize.container) {
-							if(this.resize.container.hasOwnProperty(key)) {
-								this.resize.container[key]();
-							}
-						}
+					if(width != _this.resize.prevWidth || height != _this.resize.prevHeight) {
+						_this.resize.prevWidth = width;
+						_this.resize.prevHeight = height;
+
+						executeQueue('resize');
 					}
 				}
 			}
-			this.frame = requestAnimationFrame(this.run.bind(this));
-		}
+
+			_this.frame = requestAnimationFrame(_this.run.bind(_this));
+		};
 
 		/**
 		 * This function stops the execution queue. To reactivate strbr, run strbr.run();
 		 */
-		this.stop = function() {
-			cancelAnimationFrame(this.frame);
-			return;
-		}
-		this.frame = requestAnimationFrame(this.run.bind(this));
+		this.stop = () => cancelAnimationFrame(_this.frame);
 
-		window.addEventListener('blur', this.pause.bind(this));
-		window.addEventListener('focus', this.play.bind(this));
+
+		this.frame = requestAnimationFrame(_this.run.bind(_this));
+
+		window.addEventListener('blur', _this.pause.bind(_this));
+		window.addEventListener('focus', _this.play.bind(_this));
 	};
 
 	/*
