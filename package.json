@@ -30,6 +30,7 @@
   "dependencies": {},
   "devDependencies": {
     "@babel/core": "^7.9.0",
+    "@babel/preset-env": "^7.9.5",
     "del": "^5.1.0",
     "fs": "0.0.1-security",
     "gulp": "^4.0.2",
