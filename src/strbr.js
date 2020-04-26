@@ -12,7 +12,7 @@
 	 *
 	 * @constructor
 	 */
-	let strbr = function strbr() {
+	let StrbrJs = function() {
 		this.resize = {
 			active: true,
 			prevX: 0,
@@ -57,7 +57,7 @@
 		 *  Defines a function to be added to resize loop. Executes only when window
 		 *  innerHeight or innerWidth values differ from previous values.
 		 */
-		strbr.prototype.add = function(i, f, e) {
+		StrbrJs.prototype.add = function(i, f, e) {
 			if(typeof(e) == 'undefined') {
 				var e = 'default';
 			}
@@ -79,7 +79,7 @@
 		/**
 		 * Removes a function from the execution queue (loop).
 		 */
-		strbr.prototype.remove = function (i, e) {
+		StrbrJs.prototype.remove = function (i, e) {
 			if(typeof(e) == 'undefined') {
 				var e = 'default';
 			}
@@ -99,28 +99,28 @@
 		/**
 		 * Enables strbr pause state.
 		 */
-		strbr.prototype.pause = function () {
+		StrbrJs.prototype.pause = function () {
 			if(!this.paused) this.paused = true;
 		}
 
 		/*
 		 * Disables strbr pause state.
 		 */
-		 strbr.prototype.play = function() {
+		 StrbrJs.prototype.play = function() {
 			 if(this.paused) this.paused = false;
 		 }
 
 		/*
 		 * Toggles strbr pause state
 		 */
-		strbr.prototype.toggle = function() {
+		StrbrJs.prototype.toggle = function() {
 			this.paused = !this.paused;
 		}
 
 		/**
 		 * This method is the execution queue that contains all the event queues.
 		 */
-		strbr.prototype.run = function() {
+		StrbrJs.prototype.run = function() {
 			if(this.paused != true) {
 				if(this.default.active == true) {
 					for(var key in this.default.container) {
@@ -173,5 +173,5 @@
 	/*
 	 * Auto-initialize strbr. Creates an instance at the window object.
 	 */
-	window.strbr = new strbr();
+	window.strbr = new StrbrJs();
 })();
