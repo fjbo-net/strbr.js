@@ -180,10 +180,15 @@
 
 		window.addEventListener('blur', _this.pause.bind(_this));
 		window.addEventListener('focus', _this.play.bind(_this));
+	},
+
+	init = () => {
+		window.FJBO.StrbrJs = window.strbr = new StrbrJs();
+
+		FJBO.EventJs.dispatch('FJBO.StrbrJs.ready');
 	};
 
-	/*
-	 * Auto-initialize strbr. Creates an instance at the window object.
-	 */
-	window.FJBO.StrbrJs = window.strbr = new StrbrJs();
+
+	if(FJBO.EventJs) init();
+	else window.addEventListener( 'FJBO.EventJs.ready', init );
 })();
