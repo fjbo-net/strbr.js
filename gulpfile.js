@@ -18,7 +18,7 @@ uglify = require('gulp-uglify');
 
 
 gulp.task('clean', callback => {
-	let deletedPaths = del.sync(['dist']);
+	let deletedPaths = del.sync(['dist/*']);
 
 	if(deletedPaths.length > 0)
 		console.log(
