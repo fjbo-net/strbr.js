@@ -44,7 +44,12 @@
 			container: {}
 		};
 
-		this.paused = false;
+		let
+		paused = false,
+		pausedBlur = false,
+		pauseOnBlur = true,
+
+		shouldPlay = () => !paused && !pausedBlur;
 
 		/**
 		 * Adds a function from the execution queue (loop).
@@ -108,20 +113,20 @@
 		 * Enables strbr pause state.
 		 */
 		StrbrJs.prototype.pause = () => {
-			if(!_this.paused) _this.paused = true;
+			if(!paused) paused = true;
 		};
 
 		/*
 		 * Disables strbr pause state.
 		 */
 		 StrbrJs.prototype.play = () => {
-			 if(_this.paused) _this.paused = false;
+			 if(paused) paused = false;
 		 };
 
 		/*
 		 * Toggles strbr pause state
 		 */
-		StrbrJs.prototype.toggle = () => _this.paused = !_this.paused;
+		StrbrJs.prototype.toggle = () => paused = !paused;
 
 		/**
 		 * This method is the execution queue that contains all the event queues.
@@ -136,7 +141,7 @@
 				}
 			};
 
-			if(_this.paused != true) {
+			if(shouldPlay()) {
 				if(_this.default.active == true)
 					executeQueue('default');
 
@@ -175,11 +180,19 @@
 		 */
 		this.stop = () => cancelAnimationFrame(_this.frame);
 
+		/**
+		 * This function will set whether strbr should pause while the window isn't focused.
+		 *
+		 * @param {bool} v - (required) true for pausing when loosing focus and false
+		 * for never pausing.
+		 */
+		this.pauseOnBlur = v => pauseOnBlur = v;
+
 
 		this.frame = requestAnimationFrame(_this.run.bind(_this));
 
-		window.addEventListener('blur', _this.pause.bind(_this));
-		window.addEventListener('focus', _this.play.bind(_this));
+		window.addEventListener('blur', e => pausedBlur = pauseOnBlur ? true : false );
+		window.addEventListener('focus', e => pausedBlur = false );
 	},
 
 	init = () => {
