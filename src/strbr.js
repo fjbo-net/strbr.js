@@ -1,11 +1,3 @@
-/**
- * http://strbr.fjbo.net/
- * JavaScript Animation Frame Manager
- * @version v1.2.0
- * @author Francisco Javier Becerra-Ortiz (FJBO)
- * @copyright © 2017-Present FJBO.
-**/
-
 (function(){
 	if(!window.FJBO) window.FJBO = {};
 
@@ -45,11 +37,25 @@
 		};
 
 		let
+		framesProcessed = 0,
+		framesPerSecond = 0,
+		lastTimeChecked = Date.now(),
+
 		paused = false,
 		pausedBlur = false,
 		pauseOnBlur = true,
 
-		shouldPlay = () => !paused && !pausedBlur;
+		shouldPlay = () => !paused && !pausedBlur,
+		calculateFPS = () => {
+			let
+			currentTime = Date.now(),
+			difference = currentTime - lastTimeChecked;
+			if(difference < 1000) return;
+
+			framesPerSecond = Math.floor(framesProcessed / (difference / 1000));
+			framesProcessed = 0;
+			lastTimeChecked = Date.now();
+		};
 
 		/**
 		 * Adds a function from the execution queue (loop).
@@ -170,6 +176,9 @@
 						executeQueue('resize');
 					}
 				}
+
+				framesProcessed++;
+				calculateFPS();
 			}
 
 			_this.frame = requestAnimationFrame(_this.run.bind(_this));
@@ -188,6 +197,11 @@
 		 */
 		this.pauseOnBlur = v => pauseOnBlur = v;
 
+		/**
+		 * Returns the calculated FPS rate.
+		 */
+		this.getFPS = () => shouldPlay() ? framesPerSecond : 0;
+
 
 		this.frame = requestAnimationFrame(_this.run.bind(_this));
 
@@ -196,7 +210,7 @@
 	},
 
 	init = () => {
-		window.FJBO.StrbrJs = window.strbr = new StrbrJs();
+		window.FJBO.StrbrJs = new StrbrJs();
 
 		FJBO.EventJs.dispatch('FJBO.StrbrJs.ready');
 	};
